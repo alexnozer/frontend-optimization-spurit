@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Оптимизация фронтенда</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link rel="stylesheet" href="styles/styles.css">
+    <style>
+        .shower {
+            --slide-ratio: calc(16 / 9);
+        }
+
+        .visually-hidden {
+            clip: rect(0 0 0 0);
+            clip-path: inset(50%);
+            height: 1px;
+            overflow: hidden;
+            position: absolute;
+            white-space: nowrap;
+            width: 1px;
+        }
+
+        .slide img {
+            max-width: 100%;
+        }
+
+        pre code.hljs {
+            padding: 0 0 0 var(--slide-side);
+        }
+    </style>
+</head>
+<body class="shower list">
+
+    <header class="caption">
+        <h1>Оптимизация фронтенда</h1>
+        <p>Алексей Назаренко, SpurIT, 2022</p>
+    </header>
+
+    <section class="slide clear" >
+        <h2 class="shout" style="color: white;">Оптимизация фронтенда</h2>
+        <img src="./pictures/space.jpg" class="cover width" alt="Космический шаттл на пусковой площадке на фоне тёмно-синего звёздного неба.">
+        <div class="copyright bottom white">Алексей Назаренко, SpurIT, 2022</div>
+    </section>
+
+    <section class="slide">
+        <h2>План</h2>
+        <ul>
+            <li class="next">Скорость и метрики</li>
+            <li class="next">Немного цифр</li>
+            <li class="next">Инструменты для замеров</li>
+            <li class="next">Способы оптимизации</li>
+        </ul>
+    </section>
+
+    <section class="slide clear">
+        <h2 class="shout" style="text-align: left; color: white; padding-left: var(--slide-side);">Скорость</h2>
+        <img src="./pictures/speed.jpg" class="cover width" alt="Абстрактный спидометр на тёмно-синем фонеб стрелка указнывает на 230.">
+    </section>
+
+    <section class="slide">
+        <h2>Что такое скорость?</h2>
+        <p>Скорость загрузки - совокупность факторов, которые влияют на то, воспринимает ли пользователь загрузку страницы как быструю.</p>
+        <img src="./pictures/speed-parts.png" class="next" width="845" height="195" alt="">
+        <a href="https://web.dev/what-is-speed/" hreflang="en" class="copyright" target="_blank">What is speed?</a>
+    </section>
+
+    <section class="slide">
+        <h2>Почему скорость важна?</h2>
+        <ul>
+            <li class="next">Удержание пользователей</li>
+            <li class="next">Повышение конверсии</li>
+            <li class="next">Улучшение пользовательского опыта</li>
+            <li class="next">SEO</li>
+            <li class="next">Забота о людях</li>
+        </ul>
+        <a href="https://web.dev/why-speed-matters/" class="copyright" target="_blank">Почему важна скорость?</a>
+    </section>
+
+    <section class="slide">
+        <h2>Почему скорость важна?</h2>
+        <ul>
+            <li class="next">Не у всех мощное железо</li>
+            <li class="next">Не у всех безлимитный интернет</li>
+            <li class="next">Не у всех хорошее интернет-соединение</li>
+            <li class="next">Нужно быстро получить информацию</li>
+            <li class="next">Может создавать дискомфорт и вредить здоровью</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Web Vitals и Core Web Vitals</h2>
+        <blockquote class="next">
+            <p><i lang="en">Web Vitals</i> - это инициатива Google, цель которой - предоставить единое руководство по сигналам качества, необходимым для обеспечения хорошего взаимодействия с пользователем в Интернете.</p>
+        </blockquote>
+        <blockquote class="next">
+            <p><i lang="en">Core Web Vitals</i> - это часть метрик <i lang="en">Web Vitals</i>, используемых для оценки веб-страниц и включенных во все инструменты Google.</p>
+        </blockquote>
+        <p class="next">C 15 июня 2021 года <a href="https://developers.google.com/search/blog/2020/05/evaluating-page-experience" class="note" target="_blank"><i lang="en">Core Web Vitals</i> учитываются при ранжировании</a>.</p>
+        <img src="./pictures/vitas.png" class="place right bottom next" width="150" alt="Певец Витас улыбается.">
+        <a href="https://web.dev/vitals/" class="copyright" target="_blank">Web Vitals</a>
+    </section>
+
+    <section class="slide">
+        <h2>Web Vitals: TTFB</h2>
+        <figure>
+            <img src="./pictures/ttfb.png" alt="Диаграма метрики Time to First Byte. Значение меньше 800мс - хорошо, от 800мс до 1800мс - нужны улучшения, более 1800мс - плохо.">
+            <figcaption>
+                <p><dfn lang="en"><abbr title="Time to First Byte">TTFB</abbr> (Time to First Byte)</dfn> - время до первого байта. Это время между запросом ресурса и началом поступления первого байта ответа.</p>
+            </figcaption>
+        </figure>
+        <a href="https://web.dev/ttfb/" class="copyright" target="_blank">Time to First Byte (TTFB)</a>
+    </section>
+
+    <section class="slide">
+        <h2>Web Vitals: FCP</h2>
+        <figure>
+            <img src="./pictures/fcp.png" alt="Диаграма метрики first contentful paint. Значение меньше 1.8с - хорошо, от 1.8с до 3.0с - нужны улучшения, более 3.0с - плохо.">
+            <figcaption>
+                <p><dfn lang="en"><abbr title="First Contentful paint">FCP</abbr> (First contentful paint)</dfn> - первая отрисовка контента. Это время с момента начала загрузки страницы до момента, когда какая-либо часть содержимого страницы отобразится на экране.</p>
+            </figcaption>
+        </figure>
+        <a href="https://web.dev/fcp/" class="copyright" target="_blank">First Contentful Paint (FCP)</a>
+    </section>
+
+    <section class="slide">
+        <h2>Web Vitals: LCP</h2>
+        <figure>
+            <img src="./pictures/lcp.png" alt="Диаграма метрики largest contentful paint. Значение меньше 2.5с - хорошо, от 2.5с до 4.0с - нужны улучшения, более 4.0с - плохо.">
+            <figcaption>
+                <p><dfn lang="en"><abbr title="Largest contentful paint">LCP</abbr> (Largest contentful paint)</dfn> - скорость загрузки основного контента. Это время от начала загрузки страницы до рендеринга самого большого изображения или текстового блока, видимого в области просмотра.</p>
+            </figcaption>
+        </figure>
+        <a href="https://web.dev/lcp/" class="copyright" target="_blank">Largest Contentful Paint (LCP)</a>
+    </section>
+
+    <section class="slide">
+        <h2>Web Vitals: FID</h2>
+        <figure>
+            <img src="./pictures/fid.png" alt="Диаграма метрики first input delay. Значение меньше 100мс - хорошо, от 100мс до 300мс - нужны улучшения, более 300мс - плохо.">
+            <figcaption>
+                <p><dfn lang="en"><abbr title="First input delay">FID</abbr> (First input delay)</dfn> - время до первого взаимодействия с контентом. Это время от первого взаимодействия пользователем со страницей до реакции браузера на это взаимодействие.</p>
+            </figcaption>
+        </figure>
+        <a href="https://web.dev/fid/" class="copyright" target="_blank">First Input Delay (FID)</a>
+    </section>
+
+    <section class="slide">
+        <h2>Web Vitals: TTI</h2>
+        <figure>
+            <img src="./pictures/tti.png" alt="Диаграма метрики time to interactive. Значение меньше 3.8с - хорошо, от 3.8с до 7.3с - нужны улучшения, более 7.3с - плохо.">
+            <figcaption>
+                <p><dfn lang="en"><abbr title="Time to interactive">TTI</abbr> (Time to interactive)</dfn> - время до интерактивности. Это время от начала загрузки страницы до загрузки ее основных ресурсов. Показывает, насколько быстро страница реагирует на действия пользователя.</p>
+            </figcaption>
+        </figure>
+        <a href="https://web.dev/tti/" class="copyright" target="_blank">First Input Delay (FID)</a>
+    </section>
+
+    <section class="slide">
+        <h2>Web Vitals: TBT</h2>
+        <figure>
+            <img src="./pictures/tbt.png" alt="Диаграма метрики total blocking time. Значение меньше 3.8с - хорошо, от 3.8с до 7.3с - нужны улучшения, более 7.3с - плохо.">
+            <figcaption>
+                <p><dfn lang="en"><abbr title="Total blocking time">TBT</abbr> (Total blocking time)</dfn> - общее время блокировки. Это время между между первой отрисовкой контента <i lang="en">FCP</i> и временем до интерактивности <i lang="en">ТТI</i>, в течении которого основной поток заблокирован.</p>
+            </figcaption>
+        </figure>
+        <a href="https://web.dev/tbt/" class="copyright" target="_blank">Total Blocking Time (TBT)</a>
+    </section>
+
+    <section class="slide">
+        <h2>Web Vitals: CLS</h2>
+        <figure>
+            <img src="./pictures/cls.png" alt="Диаграма метрики Cumulative Layout Shift. Значение меньше 0.1 - хорошо, от 0.1 до 0.25 - нужны улучшения, более 0.25 - плохо.">
+            <figcaption>
+                <p><dfn lang="en"><abbr title="Cumulative Layout Shift">CLS</abbr> (Cumulative Layout Shift)</dfn> - cовокупное смещение макета. Это оценка наибольшего смещения элементов, вызванных загрузкой изображений, рекламных баннеров, изменением шрифтов и тд.</p>
+            </figcaption>
+        </figure>
+        <a href="https://web.dev/cls/" class="copyright" target="_blank">Cumulative Layout Shift (CLS)</a>
+    </section>
+
+    <section class="slide">
+        <h2>Web Vitals: INP</h2>
+        <figure>
+            <img src="./pictures/inp.png" alt="Диаграма метрики Interaction to Next Paint. Значение меньше 200мс - хорошо, от 200мс до 500мс - нужны улучшения, более 500мс - плохо.">
+            <figcaption>
+                <p><dfn lang="en"><abbr title="Interaction to Next Paint">INP</abbr> (Interaction to Next Paint)</dfn> - скорость реакции на взаимодействие. Это максимальное время, которое происходит с момента взаимодействия пользователя с элементом интерфейса до его реакции на это.</p>
+            </figcaption>
+        </figure>
+        <a href="https://web.dev/inp/" class="copyright" target="_blank">Interaction to Next Paint (INP)</a>
+    </section>
+
+    <section class="slide">
+        <h2>Web Vitals: SI</h2>
+        <figure>
+            <img src="./pictures/si.png" alt="Диаграма метрики Speed Index. Значение меньше 4.4с - хорошо, от 4.4с до 5.8с - нужны улучшения, более 5.8с - плохо.">
+            <figcaption>
+                <p><dfn lang="en"><abbr title="Speed Index">SI</abbr> (Speed Index)</dfn> - индекс скорости. Измеряет насколько быстро контент визуально отображается в процессе загрузки страницы. Это вспомогательная метрика.</p>
+            </figcaption>
+        </figure>
+        <a href="https://web.dev/speed-index/" class="copyright" target="_blank">Speed Index</a>
+    </section>
+
+    <section class="slide">
+        <h2>Core Web Vitals</h2>
+        <div class="columns three">
+            <figure>
+                <img src="./pictures/lcp.svg" alt="Диаграма метрики Largest Contentful Paint. Значение меньше 2.5с - хорошо, от 2.5с до 4.0с - нужны улучшения, более 4.0с - плохо.">
+            </figure>
+            <figure>
+                <img src="./pictures/fid.svg" alt="Диаграма метрики First Input Delay. Значение меньше 100мс - хорошо, от 100мс до 300мс - нужны улучшения, более 300мс - плохо.">
+            </figure> 
+            <figure>
+                <img src="./pictures/cls.svg" alt="Диаграма метрики Cumulative Layout Shift. Значение меньше 0.1 - хорошо, от 0.1 до 0.25 - нужны улучшения, более 0.25 - плохо.">
+            </figure> 
+        </div>
+        <a href="https://habr.com/ru/company/rambler_and_co/blog/544904/" class="copyright" target="_blank">Core Web Vitals: как Google решил оценивать сайты</a>
+    </section>
+
+    <section class="slide clear">
+        <h2 class="shout" style="text-align: left; color: white; padding-left: var(--slide-side);">Немного цифр</h2>
+        <img src="./pictures/research.jpg" class="cover height" alt="Больой график, на заднем фоне человек, который стоит посреди большой пустой парковки.">
+    </section>
+
+    <section class="slide clear">
+        <h2>Загрузка<br>и стресс</h2>
+        <img src="./pictures/stress.jpg" class="cover" alt="Слайд из презентации Erricson о уровне стресса при просмотре ужасов и медленной загрузке сайта.">
+        <a href="https://files.stample.co/stample-1490437638577-emr-feb-2016-the-stress-of-steaming-delays.pdf" hreflang="en" class="copyright" target="_blank">The stress of streaming delays</a>
+    </section>
+
+    <section class="slide">
+        <h2>Влияние производительности</h2>
+        <ul>
+            <li><a href="https://medium.com/pinterest-engineering/driving-user-growth-with-performance-improvements-cfc50dafadd7" hreflang="en" target="_blank">Pinterest</a> сократил предполагаемое время ожидания на 40%, что увеличило трафик и количество регистраций на 15%.</li>
+            <li><a href="https://www.creativebloq.com/features/how-the-bbc-builds-websites-that-scale" hreflang="en" target="_blank">BBC</a> теряют 10% пользователей за каждую дополнительную секунду загрузки страницы.</li>
+            <li>Для <a href="https://www.gigaspaces.com/blog/amazon-found-every-100ms-of-latency-cost-them-1-in-sales" hreflang="en" target="_blank">Amazon</a> каждые 100мс задержки обходятся в 1% продаж.</li>
+            <li>AliExpress сократил время загрузки на 36%, увеличил количество заказов на 10,5% и увеличил конверсию для новых клиентов на 27%.</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Влияние Core Web Vitals</h2>
+        <ul>
+            <li><a href="https://web.dev/yahoo-japan-news/" hreflang="en" target="_blank">Yahoo! Japan</a> улучшила CLS, что привело к сокращению количества плохих страниц на 98% и увеличению числа просмотров страниц за сеанс на 15%.</li>
+            <li>AliExpress улучшил CLS в 10 раз, а LCP в 2 раза, что привело к снижению показателя отказов на 15%</li>
+            <li><a href="https://web.dev/vodafone" hreflang="en" target="_blank">Vodafone (Италия)</a> улучшил LCP на 31%, увеличив продажи на 8%.</li>
+        </ul>
+        <a href="https://web.dev/vitals-business-impact/" hreflang="en" class="copyright" target="_blank">The business impact of Core Web Vitals</a>
+    </section>
+
+    <section class="slide">
+        <h2>Другие исследования</h2>
+        <p>В блоге Shopify приводятся результаты исследование компании <a href="https://skilled.co/resources/speed-affects-website-infographic/" target="_blank">Skilled</a>:</p>
+        <ul>
+            <li>79% недовольных клиентов с меньшей вероятностью будут снова совершать покупки в магазине</li>
+            <li>64% пользователей смартфонов ожидают, что загрузка сайта будет длиться менее 4 секунд</li>
+            <li>47% пользователей магазинов ожидают, что загрузка будет менее 2 секунд</li>
+        </ul>
+        <a href="https://www.shopify.com/enterprise/site-performance-page-speed-ecommerce" hreflang="en" class="copyright" target="_blank">Improve Your Ecommerce Site Performance & Speed to 2X Conversions</a>
+    </section>
+
+    <section class="slide">
+        <h2>Ссылки</h2>
+        <ul>
+            <li><a href="https://wpostats.com/" hreflang="en" target="_blank">WPO Stats</a></li>
+            <li><a href="https://web.dev/tags/case-study/" hreflang="en" target="_blank">web.dev Case Study</a></li>
+            <li><a href="https://3perf.com/#clients/" hreflang="en" target="_blank">PerfPerfPerf Client Stories</a></li>
+        </ul>
+        <ul>
+            <li><a href="https://www.nngroup.com/articles/response-times-3-important-limits/" hreflang="en" target="_blank">Response Times: The 3 Important Limits</a></li>
+            <li><a href="https://www.nngroup.com/articles/powers-of-10-time-scales-in-ux/" hreflang="en" target="_blank">Powers of 10: Time Scales in User Experience</a></li>
+        </ul>
+    </section>
+
+    <section class="slide clear">
+        <h2 class="shout" style="text-align: left; color: white; padding-left: var(--slide-side);">Замеры</h2>
+        <img src="./pictures/measure.jpg" class="cover width" alt="HTML-код в редакторе на тёмном фоне." style="filter: brightness(0.4);">
+    </section>
+
+    <section class="slide">
+        <h2>Метрики</h2>
+        <div class="columns two">
+            <div>
+                <p>Лабораторные</p>
+                <ul class="next">
+                    <li>Имитируются в лабораторных условиях</li>
+                    <li>Зависят от среды проверки</li>  
+                    <li>Результаты от проверки к проверке могут отличаться</li> 
+                </ul> 
+            </div>
+            <div>
+                <p>Полевые (<abbr title="Real User Monitoring">RUM</abbr>)</p>
+                <ul class="next">
+                    <li>Собираются с реальных пользователей</li>
+                    <li>Отличаются для разных пользователей</li>  
+                    <li>Необходимо достаточное количество для анализа</li> 
+                </ul> 
+            </div>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>Инстурменты для замера</h2>
+        <div class="columns two">
+            <ul>
+                <li class="next">Chrome Lighthouse</li>
+                <li class="next"><a href="https://pagespeed.web.dev/" target="_blank">PageSpeed Insights</a></li>
+                <li class="next"><a href="https://web.dev/measure/" target="_blank">web.dev Measure</a></li>
+                <li class="next"><a href="https://www.webpagetest.org/" hreflang="en" target="_blank">WebPageTest</a></li>
+                <li class="next">Chrome DevTools Performance</li>
+                <li class="next">Chrome DevTools Performance Insights</li>
+            </ul>
+            <ul>
+                <li class="next"><a href="https://search.google.com/search-console/about" target="_blank">Google Search Console</a></li>
+                <li class="next"><a href="https://github.com/GoogleChrome/web-vitals-extension" target="_blank">Web Vitals для Chrome</a></li>
+                <li class="next">JavaScript (<a href="https://github.com/GoogleChrome/web-vitals" hreflang="en" target="_blank">web-vitals</a>)</li>
+                <li class="next"><a href="https://web.dev/chrome-ux-report/" target="_blank">Chrome UX Report (CrUX)</a></li>
+                <li class="next">Shopify Online store speed</li>
+            </ul>
+        </div>
+        <a href="https://web.dev/vitals-tools/" class="copyright" target="_blank">Инструменты для измерения Core Web Vitals</a>
+    </section>
+
+    <section class="slide">
+        <h2 class="shout">Всегда<br>замеряйте!</р>
+    </section>
+
+    <section class="slide">
+        <h2 class="shout" style="color: white;">Оптимизируем</h2>
+        <img src="./pictures/optimization.jpg" class="cover width" alt="Гаечные ключи, свёрла и металлические кольца-прокладки на чёрном фоне." style="filter: brightness(0.4);">
+    </section>
+
+    <section class="slide">
+        <h2>Как работает браузер</h2>
+        <div class="columns two">
+            <ul>
+                <li class="next">Обработка адреса</li>
+                <li class="next">DNS lookup</li>
+                <li class="next">Соединение с сервером</li>
+                <li class="next">Получение HTML</li>
+                <li class="next">Парсинг HTML</li>
+                <li class="next">Поиск CSS, JS и других ресурсов</li>
+                <li class="next">Построение очереди загрузки</li>
+            </ul>
+            <ul>
+                <li class="next">Загрузка и парсинг CSS</li>
+                <li class="next">Загрузка шрифтов</li>
+                <li class="next">Загрузка, парсинг и исполнение JS*</li>
+                <li class="next">Вычисление стилей</li>
+                <li class="next">Построение DOM и CSSOM</li>
+                <li class="next">Отрисовка</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>Цель оптимизации</h2>
+        <ul class="next">
+            <li>Избежать загрузки лишних ресурсов</li>
+            <li>Уменьшить размер ресурсов</li>
+            <li>Уменьшить время получения ресурсов</li>
+            <li>Избегать блокировки основного потока</li>
+            <li>Отложить загрузку второстепенных ресурсов</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Что можно оптимизировать?</h2>
+        <div class="columns two">
+            <ul>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+                <li>Графику</li>
+                <li>Шрифты</li>
+            </ul>
+            <ul>
+                <li>Видео</li>
+                <li>Анимации</li>
+                <li>Сторонние виджеты</li>
+                <li>Аналитику</li>
+                <li>Сеть и сервер</li>
+            </ul>
+        </div>
+        <a href="https://web.dev/fast/" class="copyright" target="_blank">Ускорение загрузки</a>
+    </section>
+
+    <section class="slide clear">
+        <h2 class="shout" style="text-align: right; color: white; width: calc(100% - var(--slide-side));">HTML</h2>
+        <img src="./pictures/html.jpg" class="cover width" alt="HTML-код в редакторе на тёмном фоне.">
+    </section>
+
+    <section class="slide">
+        <h2>HTML</h2>
+        <ul>
+            <li class="next">Первое, что видит браузер</li>
+            <li class="next">Имеет наивысший приоритет</li>
+            <li class="next">Стримится</li>
+            <li class="next">Содержит информацию про остальные ресурсы</li>
+            <li class="next">Содержит контент</li>
+            <li class="next">Парсится, пока основной поток не заблокирован</li>
+            <li class="next">Имеет механизмы для оптимизации</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Меньше HTML</h2>
+        <ul class="next">
+            <li>не более 1400 элементов, в идеале не более 800</li>
+            <li>уровень вложенности не более 32</li>
+            <li>не более 60 родительских элементов</li>
+        </ul>
+        <div class="columns two">
+            <ul>
+                <li class="next">Не храним лишнее в DOM</li>
+                <li class="next">Отрисовываем динамически</li>
+                <li class="next">Используем <code>&lt;template&gt;</code></li>
+                <li class="next">Делаем пагинацию и <span lang="en">Load more</span></li>
+            </ul>
+            <ul>
+                <li class="next">Минимизируем инлайн (base64, скрипты и стили)*</li>
+                <li class="next">Не храним много данных</li>
+                <li class="next">Используем современный CSS</li>
+            </ul> 
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>Cсылки</h2>   
+        <ul>
+            <li><a href="https://web.dev/dom-size/" target="_blank">Избегайте чрезмерного размера DOM</a></li>
+            <li><a href="https://css-tricks.com/crafting-reusable-html-templates/" target="_blank" hreflang="en">Crafting Reusable HTML Templates</a></li>
+        </ul> 
+    </section>
+
+    <section class="slide">
+        <h2>Подсказки браузеру</h2>
+        <ul>
+            <li class="next"><code>&lt;link rel="preload"&gt;</code>, <code>preconnect</code>, <code>prefetch</code>, <code>dns-prefetch</code>, <code>prerender</code>;</li>
+            <li class="next"><code>&lt;img&gt;</code> и <code>&lt;iframe&gt;</code> + <code>loading="lazy"</code>;</li>
+            <li class="next"><code>&lt;video&gt;</code> и <code>&lt;audio&gt;</code> + <code>preload="none"</code> или <code>preload="metadata"</code>;</li>
+            <li class="next"><code>&lt;script&gt;</code> + <code>async</code> или <code>defer</code>;</li>
+            <li class="next"><code>&lt;link&gt;</code>, <code>&lt;img&gt;</code>, <code>&lt;script&gt;</code> и <code>&lt;iframe&gt;</code> + <code>fetchpriority</code>.</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Cсылки</h2>   
+        <ul>
+            <li><a href="https://web.dev/priority-hints/" target="_blank" hreflang="en">Optimizing resource loading with Priority Hints</a></li>
+            <li><a href="https://www.w3.org/TR/resource-hints/" target="_blank" hreflang="en">W3C Resource Hints</a></li>
+            <li><a href="https://www.smashingmagazine.com/2019/04/optimization-performance-resource-hints/" target="_blank" hreflang="en">Optimizing Performance With Resource Hints</a></li>
+            <li><a href="https://habr.com/ru/post/445264/" target="_blank" hreflang="en">Preload, prefetch и другие теги</a></li>
+        </ul> 
+    </section>
+
+    <section class="slide">
+        <h2>Минификация и сжатие HTML</h2>
+        <div class="columns two">
+            <ul class="next">
+                <li>JS: <a href="https://www.npmjs.com/package/html-minifier" target="_blank" hreflang="en">html-minifier</a></li>
+                <li>Webpack: <a href="https://www.npmjs.com/package/html-minimizer-webpack-plugin" target="_blank" hreflang="en">html-minimizer</a></li>
+                <li>Binary: <a href="https://www.html-tidy.org/" target="_blank" hreflang="en">Tidy</a></li>
+                <li>Online: <a href="https://terser.org/html-minifier-terser/" target="_blank" hreflang="en">HTML Minifier</a></li>
+                <li>Apache/Nginx: <a href="https://developers.google.com/speed/pagespeed/module" target="_blank" hreflang="en">PageSpeed Module
+                </a></li>
+            </ul>
+            <ul class="next">
+                <li>gzip</li>
+                <li>brotli</li>
+                <li>zopfli</li>
+            </ul>
+        </div>
+        <p class="next">Можно использовать CDN или настроить сервер (при возможности).</p>
+    </section>
+
+    <section class="slide clear">
+        <h2 class="shout" style="text-align: right; color: white; width: calc(100% - var(--slide-side));">CSS</h2>
+        <img src="./pictures/css.jpg" class="cover width" alt="CSS-код в редакторе на тёмном фоне.">
+    </section>
+
+    <section class="slide">
+        <h2>CSS</h2>
+        <ul>
+            <li class="next">Делают сайты красивыми</li>
+            <li class="next">Блокирующий ресурс</li>
+            <li class="next">Необходимы для отрисовки страницы</li>
+            <li class="next">Оказывают весомое влияние на производительность</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Меньше CSS</h2>
+        <ul>
+            <li class="next">Минимизируем сложные селекторы</li>
+            <li class="next">Используем <a href="https://web.dev/one-line-layouts/" target="_blank">современный CSS</a></li>
+            <li class="next">Применяем подходы резиновой вёрстки</li>
+            <li class="next">Пользуемся наследованием свойств</li>
+            <li class="next">Используем <a href="https://css-tricks.com/a-complete-guide-to-custom-properties/" target="_blank" lang="en" hreflang="en">Custom properties</a> и <a href="https://css-tricks.com/currentcolor/" target="_blank" hreflang="en">currentColor</a></li>
+            <li class="next">Стараемся переиспользовать CSS</li>
+            <li class="next">Используем <a href="https://ru.bem.info/methodology/css/" target="_blank">БЭМ</a></li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Библиотеки</h2>
+        <ul>
+            <li class="next">Не используем библиотеку</li>
+            <li class="next">Используем только нужную часть библиотеки<br> <samp>bootstrap.min.css</samp> → <samp>bootstrap-grid.min.css</samp> для сетки</li>
+            <li class="next">Собираем нужные части из исходников<br> <samp>scss/_table.scss</samp> для таблиц</li>
+            <li class="next">Не используем одновременно несколько схожих библиотек</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Browserlist</h2>
+        <p class="next"><i>Autoprefixer</i>, <i>Babel</i>, <i>postcss-preset-env</i> и тд. используют <i>browserlist</i></p>
+        <p class="next"><samp>last 2 version and > 0.1%</samp> включает в себя IE 11 и Opera Mini</p>
+        <p class="next">Конкретизируем browserlist или используем готовый, например <a href="https://www.npmjs.com/package/@shopify/browserslist-config" target="_blank">@shopify/browserslist-config
+        </a></p>
+        <p class="next"><a href="https://web-standards.ru/articles/speed-up-with-browserslist/" target="_blank">Уско­ря­ем­ся с по­мо­щью Browserslist</a></p>
+    </section>
+
+    <section class="slide">
+        <h2>@import</h2>
+        <p class="next"><code>@import</code> в CSS мешает делать параллельные запросы</p>
+        <p class="next">Вложенные <code>@import</code> загружаются друг за другом и блокируют поток</p>
+        <p class="next">Склеиваем файлы при помощи <a href="https://sass-scss.ru/documentation/pravila_i_direktivi/direktiva_import/" target="_blank">препроцессора</a> или <a href="https://www.npmjs.com/package/postcss-import" target="_blank" hreflang="en">PostCSS-плагином</a></p>
+    </section>
+
+    <section class="slide">
+        <h2>Минификация</h2>
+        <p class="next">Минификация позволяет уменьшить размер файла на 20-60%</p>
+        <div class="next">
+            <ul>
+                <li><a href="https://www.npmjs.com/package/csso" target="_blank" hreflang="en">csso</a></li>
+                <li><a href="https://cssnano.co/" target="_blank" hreflang="en">cssnano</a></li>
+            </ul>
+            <p><a href="https://web.dev/minify-css/" target="_blank" hreflang="en">Minify CSS</a></p>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>Разделение стилей</h2>
+        <ul>
+            <li class="next"><samp>style.css</samp> → <samp>home.css</samp>, <samp>about.css</samp>, <samp>product.css</samp>, ...</li>
+            <li class="next"><samp>style.css</samp> → <samp>menu.css</samp>, <samp>form.css</samp>, <samp>slider.css</samp>, ...</li>
+            <li class="next"><samp>style.css</samp> → <samp>product-info.css</samp>, <samp>cross-sale.css</samp>, ...</li>
+            <li class="next"><samp>style.css</samp> → <samp>light.css</samp>, <samp>dark.css</samp>, <samp>print.css</samp>, ...</li>
+            <li class="next"><samp>style.css</samp> → <samp>base.css</samp>, <samp>desktop.css</samp>, <samp>mobile.css</samp>, ...</li>
+        </ul>
+        <p class="next"><a href="https://youtu.be/-4ag-AYFzGo" target="_blank">Вадим Макеев: Условно адаптивно</a></p>
+    </section>
+
+    <section class="slide">
+        <h2>Critical CSS</h2>
+        <div class="columns two next">
+            <div>
+                <p>Разделение стилей на критические и некритические</p>
+                <p class="next">Критические инлайнятся в <code>&lt;head&gt;</code></p>
+                <p class="next">Некритические загружаются асинхронно</p>
+            </div>
+            <div>
+                <img src="./pictures/critical-css.png" alt="">
+            </div>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>Ссылки</h2>
+        <div class="columns two">
+            <div>
+                <p>Инструменты:</p>
+                <ul>
+                    <li><a href="https://github.com/addyosmani/critical" target="_blank" hreflang="en">Critical</a></li>
+                    <li><a href="https://github.com/filamentgroup/criticalCSS" target="_blank" hreflang="en">CriticalCSS</a></li>
+                    <li><a href="https://github.com/pocketjoso/penthouse" target="_blank" hreflang="en">Penthouse</a> (<a href="https://jonassebastianohlsson.com/criticalpathcssgenerator/" target="_blank" hreflang="en">онлайн-версия</a>)</li>
+                </ul>
+            </div>
+            <div>
+                <p>Статьи:</p>
+                <ul>
+                    <li><a href="https://web.dev/defer-non-critical-css/" target="_blank">Откладывание некритичных CSS</a></li>
+                    <li><a href="https://web.dev/extract-critical-css/" target="_blank">Извлечение критического CSS-кода</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>Utility и Atomic подходы*</h2>
+        <p class="next">Utility-подход предполагает использование утилитарных классов:<br><code>&lt;div class="<mark>d-flex justify-center p-24</mark>"&gt;...&lt;/div&gt;</code></p>
+        <p class="next">AtomicCSS предполагает использование классов-функций и генерацию итогового CSS на основе этих функций:<br><code>&lt;div class="<mark>D(f) Jc(c) P(24px)</mark>"&gt;...&lt;/div&gt;</code></p>
+        <p class="next">* В среднем CSS на 20-30% меньше, но растёт HTML + странный синтаксис</p>
+    </section>
+
+    <section class="slide">
+        <h2>Ссылки</h2>
+        <div class="columns two">
+            <div>
+                <p>Utility:</p>
+                <ul>
+                    <li><a href="https://tailwindcss.com/" target="_blank" hreflang="en">Tailwind</a</li>
+                    <li><a href="https://getbootstrap.com/" target="_blank" hreflang="en">Bootstrap</a></li>
+                    <li><a href="https://blog.logrocket.com/top-utility-first-css-frameworks/" target="_blank" hreflang="en">и другие</a></li>
+                </ul>
+            </div>
+            <div>
+                <p>Atomic:</p>
+                <ul>
+                    <li><a href="https://acss.io/" target="_blank" hreflang="en">Atomizer</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>Cсылки</h2>
+        <ul>
+            <li><a href="https://web.dev/css-web-vitals/" target="_blank">CSS для Web Vitals</a></li>
+            <li><a href="https://youtu.be/kATRlMrtaaY" target="_blank">Никита Дубко - Дорогая цена стилей</a></li>
+        </ul>
+    </section>
+
+    <section class="slide clear">
+        <h2 class="shout" style="text-align: right; color: white; width: calc(100% - var(--slide-side));">Java<br>Script</h2>
+        <img src="./pictures/js.jpg" class="cover width" alt="JavaScript-код в редакторе на тёмном фоне.">
+    </section>
+
+    <section class="slide">
+        <h2>JavaScript</h2>
+        <ul>
+            <li class="next">Нужен для создания интерактивности</li>
+            <li class="next">Парсится и исполняется</li>
+            <li class="next">Блокирующий ресурс</li>
+            <li class="next">Оказывают весомое влияние на производительность</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Меньше JavaScript</h2>
+        <ul>
+            <li class="next">HTML: <code>&lt;details&gt;</code>+<code>&lt;summary&gt;</code>, <code>&lt;video&gt;</code>, <code>&lt;audio&gt;</code>, <code>&lt;select&gt;</code>, ...</li>
+            <li class="next">CSS: <code>:hover</code>, <code>:focus</code>, <code>@keyframes</code>+<code>animation</code>, <code>transform</code>, ...</li>
+            <li class="next">Browser API вместо библиотек</li>
+            <li class="next">Используем современные стандарты ECMAScript</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Библиотеки</h2>
+        <div class="columns two">
+            <ul>
+                <li class="next">Не используем библиотеки</li>
+                <li class="next"><a href="https://github.com/GoogleChromeLabs/webpack-libs-optimizations" hreflang="en" target="_blank">Подключаем только нужное</a></li>
+                <li class="next">jQuery → <a href="https://vanillalist.top/" target="_blank">JavaScript</a></li>
+                <li class="next"><a href="https://web.dev/remove-unused-code/" target="_blank">Удаляем неиспользуемый код</a></li>
+                <li class="next"><a href="https://web.dev/commonjs-larger-bundles/" target="_blank" hreflang="en">Стараемся не использовать CommonJS</a></li>
+            </ul>
+            <ul>
+                <li class="next">Используем лёгкие альтернативы
+                    <br>moment.js → <a href="https://www.npmjs.com/package/date-fns" target="_blank" hreflang="en">date-fns</a>, <a href="https://www.npmjs.com/package/luxon" target="_blank" hreflang="en">Luxon</a>, <a href="https://www.npmjs.com/package/dayjs" target="_blank" hreflang="en">day.js</a>
+                    <br>jQuery → <a href="https://zeptojs.com/" target="_blank" hreflang="en">zepto.js</a>, <a href="https://github.com/fabiospampinato/cash" target="_blank" hreflang="en">Cash</a>, <a href="https://umbrellajs.com/" target="_blank" hreflang="en">Umbrella.js</a>
+                    <br>Vue.js → <a href="https://github.com/vuejs/petite-vue" target="_blank" hreflang="en">petite-vue</a>, <a href="https://alpinejs.dev/" target="_blank">Alpine</a>
+                    <br>React → <a href="https://preactjs.com/" target="_blank" hreflang="en">Preact</a>, <a href="https://github.com/NervJS/nerv" target="_blank" hreflang="en">Nerv</a>, <a href="https://github.com/infernojs/inferno" target="_blank" hreflang="en">Inferno</a>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>async и defer</h2>
+        <div class="next">
+            <figure>
+                <img src="./pictures/async-vs-defer.svg" alt="">
+            </figure>
+            <p><code>&lt;script src="script.js" async&gt;&lt;/script&gt;</code><br><code>&lt;script src="script.js" defer&gt;&lt;/script&gt;</code></p>
+        </div>
+        <a href="https://pagespeedchecklist.com/async-and-defer" class="copyright" target="_blank" hreflang="en">What's The Difference Between Async & Defer?</a>
+    </section>
+
+    <section class="slide">
+        <h2>Минификация</h2>
+        <p class="next">Минификация позволяет уменьшить размер файла на 20-60%</p>
+        <div class="next">
+            <ul>
+                <li>Webpack 5 <samp>mode: 'production'</samp></li>
+                <li><a href="https://www.npmjs.com/package/babel-preset-minify" target="_blank" hreflang="en">babel-preset-minify</a></li>
+                <li><a href="https://github.com/terser/terser" target="_blank" hreflang="en">Terser</a></li>
+                <li><a href="https://www.npmjs.com/package/uglify-js" target="_blank" hreflang="en">UglifyJS</a></li>
+            </ul>
+            <p><a href="https://web.dev/reduce-network-payloads-using-text-compression/" target="_blank" hreflang="en">Minify and compress network payloads</a></p>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>Code splitting и ленивая загрузка</h2>
+        <p class="next"><samp>bundle.js</samp> → <samp>modal.js</samp>, <samp>slider.js</samp>, <samp>map.js</samp>, ...</p>
+        <p class="next"><code>&lt;!-- product page --&gt; &lt;script src="slider.js" defer&gt;</code></p>
+        <p class="next"><code>/* bundle.js */ import('./map.js').then(...);</code></p>
+        <p class="next"><a href="https://web.dev/reduce-javascript-payloads-with-code-splitting/" target="_blank">Сокращение размера полезной нагрузки JavaScript за счет разделения кода</a></p>
+    </section>
+
+    <section class="slide">
+        <h2>Доставка современного кода</h2>
+        <p class="next"><samp>modern.js</samp> и <samp>old.bundle.js</samp></p>
+        <pre class="next">
+            <code>&lt;script type="module" src="modern.js"&gt;&lt;/script&gt;</code>
+            <code>&lt;script nomodule src="old.bundle.js" defer&gt;&lt;/script&gt;</code>
+        </pre>
+        <ul class="next">
+            <li><a href="https://web.dev/serve-modern-code-to-modern-browsers/" target="_blank" hreflang="en">Serve modern code to modern browsers for faster page loads</a></li>
+            <li><a href="https://web.dev/publish-modern-javascript/" target="_blank">Публикация, доставка и установка современного JavaScript для ускорения работы приложений</a></li>
+        </ul>
+    </section>
+
+    <section class="slide clear">
+        <h2 class="shout" style="color: white; width: calc(100% - var(--slide-side));">Графика</h2>
+        <img src="./pictures/images3.jpg" class="cover width" alt="Абстрактные изображения в рамках.">
+    </section>
+
+    <section class="slide">
+        <h2>Графика</h2>
+        <ul>
+            <li class="next">По <a href="https://httparchive.org/reports/state-of-images?start=2020_12_01&end=latest&view=list" target="_blank">данным HTTP Archive</a> за 2021 год графика в среднем занимает <mark>967.5&nbsp;KB</mark> при среднем размере страницы <mark>2173.0&nbsp;KB</mark></li>
+            <li class="next">Нужна пользователям</li>
+            <li class="next">Делает сайты красивыми</li>
+            <li class="next">Бывает контентная и декоративная</li>
+            <li class="next">Оказывает весомое влияние на производительность</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Замена графики</h2>
+        <ul>
+            <li class="next">Изображение с текстом → текст + шрифт</li>
+            <li class="next">Изображение с таблицей → <code>&lt;table&gt;</code></li>
+            <li class="next">Изображение с градиентом → <code>linear-gradient</code> и др.</li>
+            <li class="next">Изображение с простой иконкой → символ из шрифта</li>
+            <li class="next">Изображение с фигурой → CSS</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Правильное использование форматов</h2>
+        <ul class="next">
+            <li><samp>.jpg</samp> - фото людей/объектов, изображения с большим количеством деталей и цветов</li>
+            <li><samp>.png</samp> - если нужна прозрачность, логотипы, изображения с текстом/фигурами/таблицами, пиксель-арт</li>
+            <li><samp>.svg</samp> - простые фигуры, иконки, логотипы, текст</li>
+            <li><s><samp>.gif</samp></s> - <strong>не используем</strong>, конвертируем в видео</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Современные форматы</h2>
+        <ul class="next">
+            <li><a href="https://timeweb.com/ru/community/articles/obzor-formata-izobrazheniy-avif-preimushchestva-sravnenie-s-jpg-polza-dlya-seo" target="_blank">AVIF</a></li>
+            <li><a href="https://developers.google.com/speed/webp/" target="_blank" hreflang="en">WebP</a></li>
+            <li><a href="https://jpeg.org/jpeg2000/" target="_blank" hreflang="en">JPEG 2000</a></li>
+            <li><a href="https://jpeg.org/jpegxr/" target="_blank" hreflang="en">JPEG XR</a></li>
+        </ul>
+        <p class="next"><a href="https://www.smashingmagazine.com/2021/09/modern-image-formats-avif-webp/" target="_blank" hreflang="en">Using Modern Image Formats: AVIF And WebP</a></p>
+    </section>
+
+    <section class="slide">
+        <h2>Современные форматы</h2>
+        <pre>
+            <code>&lt;picture&gt;</code>
+            <code>&Tab;&lt;source srcset="image.<mark>avif</mark>" type="image/avif"&gt;</code>
+            <code>&Tab;&lt;source srcset="image.<mark>webp</mark>" type="image/webp"&gt;</code>
+            <code>&Tab;&lt;source srcset="image.<mark>jxr</mark>" type="image/jxr"&gt;</code>
+            <code>&Tab;&lt;source srcset="image.<mark>jp2</mark>" type="image/jp2"&gt;</code>
+            <code>&Tab;&lt;img src="image.jpg" alt="Some description..."&gt;</code>
+            <code>&lt;picture/&gt;</code>
+        </pre> 
+    </section>
+
+    <section class="slide">
+        <h2>Progressive JPEG</h2>
+        <div class="columns two next">
+            <figure>
+                <img src="./pictures/standart-png.jpg" alt="">
+                <figcaption>Загрузка стандартного JPEG</figcaption>
+            </figure>
+            <figure>
+                <img src="./pictures/progressive-png.jpg" alt="">
+                <figcaption>Загрузка прогрессивного JPEG</figcaption>
+            </figure>
+        </div>
+        <p class="next">Можно использовать фильтр в Shopify:<br> <code>{{ product | image_url: format: 'pjpg' }}</code></p>
+    </section>
+
+    <section class="slide">
+        <h2>Сжатие</h2>
+        <p class="next">За счёт сжатия можно уменьшить размер графических файлов</p>
+        <p class="next">Сжатие бывает с потерями и без потерь</p>
+        <div class="next columns two">
+            <ul>
+                <li><a href="https://squoosh.app/" target="_blank" hreflang="en">Squoosh</a> для растра</li>
+                <li><a href="https://tinypng.com/" target="_blank" hreflang="en">tinypng</a> и <a href="https://tinyjpg.com/" target="_blank" hreflang="en">tinyjpg</a> для растра</li>
+                <li><a href="https://jakearchibald.github.io/svgomg/" target="_blank" hreflang="en">SVGOMG</a> для svg</li>
+            </ul>
+            <ul>
+                <li><a href="https://www.npmjs.com/package/imagemin" target="_blank" hreflang="en">imagemin</a>, пакет, приложение, CLI</li>
+                <li><a href="https://www.npmjs.com/package/@squoosh/lib" target="_blank" hreflang="en">libSquoosh</a></li>
+                <li><a href="https://www.npmjs.com/package/sharp" target="_blank" hreflang="en">Sharp</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>Resize и crop</h2>
+        <div class="columns two">
+            <p class="next"><dfn lang="en">Resize</dfn> - изменение размеров изображения (высоты и ширины)</p>
+            <p class="next"><dfn lang="en">Crop</dfn> - вырезание фрагмента изображения</p>
+        </div>
+        <ul class="next">
+            <li>Заранее (photoshop, figma, ...)</li>
+            <li>В редакторе CMS (если есть)</li>
+            <li>Кодом, например в liquid:<br><code>{{ product | image_url: width: 400, height: 400, crop: 'center' }}</code></li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Размеры изображений</h2>
+        <pre class="next"><code>&lt;img src="pic.webp" <mark>width="400" height="400"</mark> alt=""&gt;</code></pre>
+        <pre class="next">
+            <code>img {</code> 
+            <code>&Tab;max-width: 100%;</code>
+            <code>&Tab;height: auto;</code>
+            <code>&Tab;aspect-ratio: 1 / 1;</code>
+            <code>}</code>
+        </pre>
+    </section>
+
+    <section class="slide">
+        <h2>Размеры изображений</h2>
+        <p class="next">Можно использовать атрибуты <code>srcset</code> и <code>sizes</code> для адаптации</p>
+        <p class="next"><code>&lt;img src="large.jpg" srcset="small.jpg 480w, large.jpg 1080w" sizes="50vw"&gt;</code></p>
+        <ul class="next">
+            <li><a href="https://web.dev/serve-images-with-correct-dimensions/" target="_blank" hreflang="en">Serve images with correct dimensions</a></li>
+            <li><a href="https://habr.com/ru/post/524918/" target="_blank">Задавать Height и Width для изображений снова важно</a></li>
+            <li><a href="https://web.dev/serve-responsive-images/" target="_blank">Адаптивная загрузка изображений</a></li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Lazyload</h2>
+        <div class="columns two">
+            <ul class="next">
+                <li><code>loading="lazy"</code></li>
+                <li>Пишем сами (Intersection Observer)</li>
+            </ul>
+            <ul class="next">
+                <li><a href="https://github.com/aFarkas/lazysizes" target="_blank" hreflang="en">lazysizes</a></li>
+                <li><a href="https://github.com/verlok/vanilla-lazyload" target="_blank" hreflang="en">vanilla-lazyload</a></li>
+                <li><a href="https://github.com/ApoorvSaxena/lozad.js" target="_blank" hreflang="en">lozad.js</a></li>
+                <li><a href="https://github.com/malchata/yall.js" target="_blank" hreflang="en">yall.js</a></li>
+            </ul>
+        </div>
+        <ul class="next">
+            <li><a href="https://web.dev/lazy-loading/" target="_blank">Использование отложенной загрузки для ускорения отрисовки страницы</a></li>
+            <li><a href="https://web.dev/lazy-loading-images/" target="_blank">Отложенная загрузка изображений</a></li>
+            <li><a href="https://web.dev/browser-level-image-lazy-loading/" target="_blank">Отложенная загрузка изображений для веб-сайтов на уровне браузера</a></li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Замена gif на видео</h2>
+        <div class="columns two next">
+            <figure>
+                <video src="./pictures/cat.mp4" type="video/mp4" style="max-width: 100%; height: auto;" autoplay loop muted></video>
+                <figcaption class="next">mp4 | 4.24 KB</figcaption>
+            </figure>
+            <figure>
+                <img src="./pictures/cat.gif" style="max-width: 100%; height: auto;" alt="">
+                <figcaption class="next">gif | 33.1 KB</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>CDN сервисы для графики</h2>
+        <p class="next">Преобразование графики налету при помощи CDN</p> 
+        <ul class="next">
+            <li><a href="https://github.com/thumbor/thumbor" target="_blank">Tumbor</a></li>
+            <li><a href="https://imgproxy.net/" target="_blank">imageproxy</a></li>
+            <li><a href="https://uploadcare.com/" target="_blank">uploadcare</a></li>
+            <li>и другие...</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Ссылки</h2>
+        <ul>
+            <li><a href="https://youtu.be/NCLMjGHePsQ" target="_blank">Вадим Макеев - Делайте из слона муху</a></li>
+            <li><a href="https://youtu.be/18MbaJGExzQ" target="_blank">Никита Дубко - Показываем пользователю картинки</a></li>
+            <li><a href="https://youtu.be/WfzKd16LplI" target="_blank">Никита Дубко - img</a></li>
+            <li><a href="https://habr.com/ru/company/ruvds/blog/562534/" target="_blank">Оптимизация веб-графики в 2021 году</a> (для 2022 ещё не написали)</li>
+            <li><a href="https://youtu.be/coq1N7JW6sQ" target="_blank">Юлия Бухвалова - Неквадратный веб</a></li>
+            <li><a href="https://youtu.be/s4HdeJctq-A" target="_blank">Lea Verou - The Missing Slice</a></li>
+            <li><a href="https://codepen.io/tag/css-art" target="_blank">CSS Art</a></li>
+        </ul>
+    </section>
+
+    <section class="slide clear">
+        <h2 class="shout" style="color: white;">Шрифты</h2>
+        <img src="./pictures/font.jpg" class="cover width" style="filter: brightness(0.4);" alt="Различные буквы.">
+    </section>
+
+    <section class="slide">
+        <h2>Шрифты</h2>
+        <ul>
+            <li class="next">Нужны для отрисовки текста</li>
+            <li class="next">Часть дизайна</li>
+            <li class="next">Бывают обычные и вариативные</li>
+            <li class="next">Можно с ними поиграться</li>
+            <li class="next">Влияют на восприятие пользователей</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Проблемы со шрифтами</h2>
+        <style>
+            .fout, .foit {
+                visibility: hidden;
+            }
+
+            .fout.show {
+                font-family: serif;
+                visibility: visible;
+                animation: fout 1.5s forwards;
+            }
+
+            .foit.show {
+                visibility: visible;
+                animation: foit 1.5s;
+            }
+
+            @keyframes fout {
+                0% {
+                    font-family: serif;
+                }
+                99% {
+                    font-family: serif;
+                }
+                100% {
+                    font-family: inherit;
+                }
+            }
+
+            @keyframes foit {
+                0% {
+                    visibility: hidden;
+                }
+                90% {
+                    visibility: hidden;
+                }
+                100% {
+                    visibility: visible;
+                }
+            }
+        </style>
+        <script>
+            window.addEventListener('load', () => {
+                const foutBtn = document.querySelector('.show-fout');
+                const foitBtn = document.querySelector('.show-foit');
+
+                foutBtn.addEventListener('click', () => {
+                    const foutTarget = document.querySelector('.fout');
+                    const foutProgress = document.querySelector('.fout-progress');
+                    foutTarget.classList.remove('show');
+                    setTimeout(() => { foutTarget.classList.add('show'); }, 0);
+
+                    foutProgress.value = 0;
+                    const foutInterval = setInterval(() => { 
+                        if (foutProgress.value !== 150) {
+                            foutProgress.value = foutProgress.value + 1;
+                        } else {
+                            clearInterval(foutInterval);
+                        }
+                    }, 10);
+                });
+
+                foitBtn.addEventListener('click', () => {
+                    const foitTarget = document.querySelector('.foit');
+                    const foitProgress = document.querySelector('.foit-progress');
+
+                    foitTarget.classList.remove('show');
+                    setTimeout(() => { foitTarget.classList.add('show'); }, 0);
+
+                    foitProgress.value = 0;
+                    const foitInterval = setInterval(() => { 
+                        if (foitProgress.value !== 150) {
+                            foitProgress.value = foitProgress.value + 1;
+                        } else {
+                            clearInterval(foitInterval);
+                        }
+                    }, 10);
+                });
+            });
+        </script>
+        <div class="columns two">
+            <figure>
+                <p class="fout">Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, consequuntur ut delectus cupiditate ipsa repellat.</p>
+                <progress class="fout-progress" min="0" max="150" value="0"></progress><br>
+                <button class="show-fout">start</button>   
+                <figcaption>Демонстрация <abbr title="Flash of unstyled text" lang="en">FOUT</abbr></figcaption>
+            </figure>
+            <figure>
+                <p class="foit">Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, consequuntur ut delectus cupiditate ipsa repellat.</p>   
+                <progress class="foit-progress" min="0" max="150" value="0"></progress><br>
+                <button class="show-foit">start</button>    
+                <figcaption>Демонстрация <abbr title="Flash of invisible text" lang="en">FOIT</abbr></figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>Системные шрифты</h2>
+        <div class="next columns two">
+            <ul>
+                <li><span style="font-family: Arial;">Arial</span></li>
+                <li><span style="font-family: Verdana;">Verdana</span></li>
+                <li><span style="font-family: 'Trebuchet MS';">Trebuchet MS</span></li>
+                <li><span style="font-family: Tahoma;">Tahoma</span></li>
+            </ul>
+            <ul>
+                <li><span style="font-family: Georgia;">Georgia</span></li>
+                <li><span style="font-family: 'Times New Roman';">Times New Roman</span></li>
+                <li><span style="font-family: 'Courier New';">Courier New</span></li>
+                <li><span style="font-family: Impact;">Impact</span></li>
+            </ul>
+        </div>
+        <ul class="next">
+            <li><a href="https://css-tricks.com/snippets/css/font-stacks/" target="_blank" hreflang="en">Font Stacks</a></li>
+            <li><a href="https://web.mit.edu/jmorzins/www/fonts.html" target="_blank" hreflang="en">Safe web fonts</a></li>
+            <li><a href="https://www.cssfontstack.com/" target="_blank" hreflang="en">CSS font stacks</a></li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Несколько шрифтов</h2>
+        <div class="columns two next">
+            <figure>
+                <img src="./pictures/fonts.jpg" width="300" height="387" alt="">
+            </figure>
+            <ul class="next">
+                <li>Используем не более 2-3 семейств шрифтов</li>
+                <li>Используем только нужные начертания</li>
+                <li>При большом количестве начертаний используем вариативный шрифт</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>Современные форматы</h2>
+        <p class="next"><samp>ttf</samp>, <samp>eot</samp>, <samp>eot?#iefix</samp>, <samp>svg</samp> → <samp>woff</samp>, <samp>woff2</samp></p>
+        <p class="next">Если поддерживаются только современные браузеры, можно обойтись одним <samp>woff2</samp></p>
+    </section>
+
+    <section class="slide">
+        <h2>font-display</h2>
+        <ul class="next">
+            <li><code>block</code> - 3с невидимый → системный → кастомный</li>
+            <li><code>swap</code> - сразу системный → кастомный</li>
+            <li><code>fallback</code> - 100мс невидимый → 3с системный → кастомный</li>
+            <li><code>optional</code> - 100мс невидимый → кастомный или системный</li>
+        </ul>
+        <p class="next"><a href="https://web.dev/optimize-webfont-loading/" target="_blank">Оптимизация загрузки и рендеринга веб-шрифтов</a></p>
+    </section>
+
+    <section class="slide">
+        <h2>Google fonts</h2>
+        <div class="columns two next">
+            <figure>
+                <img src="./pictures/google-fonts-snippet.png" alt="">
+            </figure>
+            <div>
+                <ul>
+                    <li><code>display</code> - font-display</li>
+                    <li><code>wght</code> - font-weight и font-style</li>
+                    <li><code>text</code> - шрифт из указанных символов</li>
+                    <li><code>subset</code> - подмножество</li>
+                </ul>
+                <p><a href="https://developers.google.com/fonts/docs/getting_started" target="_blank">Google Fonts API</a></p>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide">
+        <h2>Подмножества шрифта</h2>
+        <pre class="next">
+            <code>@font-face {</code>
+            <code>&Tab;src: url(Roboto-<mark>latin</mark>.woff2) format('woff2');</code>
+            <code>&Tab;<mark>unicode-range: U+0000-00FF, U+0131, U+0152-0153, ...;</mark></code>
+            <code>}</code>
+        </pre>
+        <ul class="next">
+            <li><a href="https://www.p1t1ch.com/blog/fonts-subsetting-via-glyphhanger/" target="_blank">Сабсеттинг шрифтов через glyphhanger</a></li>
+            <li><a href="https://web.dev/reduce-webfont-size/#unicode-range-subsetting" target="_blank" hreflang="en">Unicode-range subsetting</a></li>
+            <li><a href="https://www.zachleat.com/unicode-range-interchange/" target="_blank" hreflang="en">Unicode Range Interchange</a></li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Ссылки</h2>
+        <ul>
+            <li><a href="https://youtu.be/4g2Ww7uFlBk" target="_blank">Вадим Макеев - _ ___ ______?</a></li>
+            <li><a href="https://www.youtube.com/watch?v=OzhvYBcT9w8" target="_blank">Алёна Батицкая - А какие варианты?</a></li>
+            <li><a href="https://web.dev/font-best-practices/" target="_blank" hreflang="en">Best practices for fonts</a></li>
+            <li><a href="https://www.zachleat.com/web/fonts/" target="_blank" hreflang="en">An Unhealthy Obsession with Web Fonts & Type</a></li>
+        </ul>
+    </section>
+
+    <section class="slide clear">
+        <h2 class="shout" style="text-align: right; color: white; width: calc(100% - var(--slide-side));">Видео</h2>
+        <img src="./pictures/video.jpg" class="cover width" alt="Видео-камера производит запись.">
+    </section>
+
+    <section class="slide">
+        <h2>Видео</h2>
+        <ul>
+            <li class="next">Тяжёлые</li>
+            <li class="next">Видео - контейнер, содержащий видеопоток, аудиопоток и метаданные</li>
+            <li class="next">Существуют различные контейнеры</li>
+            <li class="next">Существуют различные видео-кодеки</li>
+            <li class="next">Существуют различные аудио-кодеки</li>
+            <li class="next">Видео могут быть разного разрешения</li>
+            <li class="next">У видео может быть разная частота кадров (<abbr title="Frames per second">FPS</abbr>)</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Встраивание видео</h2>
+        <pre class="next">
+            <code>&lt;video src="video.mp4"</code>
+            <code>&Tab;controls</code>
+            <code>&Tab;<mark>preload="metadata"</mark></code>
+            <code>&Tab;<mark>poster="video.jpg"</mark></code>
+            <code>&Tab;<mark>width="1920"</mark></code>
+            <code>&Tab;<mark>height="1080"</mark></code>
+            <code>&gt;&lt;/video&gt;</code>
+        </pre>
+    </section>
+
+    <section class="slide">
+        <h2>gif как видео</h2>
+        <pre class="next">
+            <code>&lt;video src="gif.mp4"</code>
+            <code>&Tab;<mark>muted</mark></code>
+            <code>&Tab;<mark>autoplay</mark></code>
+            <code>&Tab;<mark>loop</mark></code>
+            <code>&Tab;<mark>playsinline</mark></code>
+            <code>&gt;&lt;/video&gt;</code>
+        </pre>
+        <p class="next"><a href="https://web.dev/replace-gifs-with-videos/" target="_blank">Replace animated GIFs with video for faster page loads</a></p>
+    </section>
+
+    <section class="slide">
+        <h2>Разрешение, частота кадров и битрейт</h2>
+        <ul class="next">
+            <li>Разрешение - ширина и высота кадра видео (1920х1080 - 1080p)</li>
+            <li>Частота кадров - количество кадров, воспроизводимых за секунду (60fps)</li>
+            <li>Битрейт - скорость передачи данных (бит в секунду)</li>
+        </ul>
+        <p class="next">Уменьшение разрешения, частоты кадров и битрейта соответственно уменьшает размер видео</p>
+    </section>
+
+    <section class="slide">
+        <h2>Видео-контейнеры и кодеки</h2>
+        <p class="next">Видео-контейнер - содержит видео-поток, аудио-поток и метаданные. <samp>MP4</samp> и <samp>WebM</samp></p>
+        <p class="next">Видео-кодек - кодирует видео-поток. <samp>AV1</samp>, <samp>H.264</samp>, <samp>H.265</samp>, <samp>VP8</samp>, <samp>VP9</samp>, <samp>MPEG-4</samp>, ... В разных контейнерах разная поддержка видео-кодеков</p>
+        <p class="next">Аудио-кодек - кодирует аудио-поток. <samp>AAC</samp>, <samp>MP3</samp>, <samp>OGG</samp>, <samp>Opus</samp>, <samp>FLAC</samp>, <samp>Vorbis</samp>, ... В разных контейнерах разная поддержка audio-кодеков</p>
+        <a href="https://en.wikipedia.org/wiki/Comparison_of_video_container_formats" class="copyright" target="_blank" hreflang="en">Comparison of video container formats</a>
+    </section>
+
+    <section class="slide">
+        <h2>YouTube</h2>
+        <p class="next">Для <strong>каждого</strong> плеера YouTube, встроенного через <code>&lt;iframe&gt;</code>, загружаются тяжёлые скрипты, даже если видео не было запущено</p>
+        <p class="next">Рекомендуется использовать технику фасадных объектов для маскировки под плеер и загрузки настоящего плеера при взаимодействии</p>
+        <ul class="next">
+            <li><a href="https://youtu.be/4JS70KB9GS0" target="_blank">Как вставить двадцать видео с Ютуба и не скачать слона</a></li>
+            <li><a href="https://web.dev/third-party-facades/" target="_blank">Отложенная загрузка сторонних ресурсов с помощью фасадов</a></li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Ссылки</h2>
+        <ul>
+            <li><a href="https://web.dev/lazy-loading-video/" target="_blank">Отложенная загрузка видео</a></li>
+            <li><a href="https://habr.com/ru/post/442020/" target="_blank">Новый кодек AV1: ускоряем загрузку видео в браузере</a></li>
+            <li></li>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Video_codecs" target="_blank">Web video codec guide</a></li>
+        </ul>
+    </section>
+
+    <section class="slide clear">
+        <h2 class="shout" style="color: white;">Анимации</h2>
+        <div class="cover width height animated-gradient"></div>
+        <style>
+            .animated-gradient {
+                background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+                background-size: 400% 400%;
+                animation: gradient 5s ease infinite;
+                height: 100vh;
+            }
+
+            @keyframes gradient {
+                0% {
+                    background-position: 0% 50%;
+                }
+                50% {
+                    background-position: 100% 50%;
+                }
+                100% {
+                    background-position: 0% 50%;
+                }
+            }
+        </style>
+    </section>
+
+    <section class="slide">
+        <h2>Анимации</h2>
+        <ul>
+            <li class="next">Часто встречаются в современном дизайне</li>
+            <li class="next">Пользователи любят микроанимации и микровзаимодействия</li>
+            <li class="next">Могут серьёзно влиять на производительность</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>CSS-анимации</h2>
+        <ul>
+            <li class="next">Стараемся делать анимации на CSS</li>
+            <li class="next">Используем <code>transition</code> для анимации перехода между двумя состояниями</li>
+            <li class="next">Используем <code>@keyframes</code> для более комплексной анимации</li>
+            <li class="next">Стараемся анимировать безопасные свойства и <code>opacity</code>/<code>transform</code></li>
+            <li class="next">Не злоупотребляем</li>
+            <li class="next">Не забываем отключать для <code>prefers-reduce-motion</code></li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>JavaScript-анимации</h2>
+        <ul>
+            <li class="next">По возможности делаем на CSS</li>
+            <li class="next">Используем <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API" target="_blank" hreflang="en">Web Animations API</a></li>
+            <li class="next">Используем <a href="https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame" target="_blank" hreflang="en">requestAnimationFrame()</a> для оптимизаций</li>
+            <li class="next">Используем библиотеки для анимации вместо изобретения велосипеда (<a href="https://animejs.com/" target="_blank" hreflang="en">anime.js</a>, <a href="https://greensock.com/" target="_blank" hreflang="en">gsap</a>)</li>
+            <li class="next">Сложные и затратные анимации выносим в Canvas или WebGL</li>
+            <li class="next">Встраиваем сложные анимации и motion design как видео</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Ссылки</h2>
+        <ul>
+            <li><a href="https://web.dev/animations/" target="_blank">Приемы для создания высокопроизводительных анимаций</a></li>
+            <li><a href="https://youtu.be/Eq_rXOyOX0I" target="_blank">Юрий Артюх - История одной анимации</a></li>
+            <li><a href="https://youtu.be/1S6DJmW_D7I" target="_blank">Юлия Музафарова - Анимация в вебе</a></li>
+            <li><a href="https://youtu.be/IjMmdAk7DZ8" target="_blank">Никита Дубко - Анимации в вебе</a></li>
+            <li><a href="https://habr.com/ru/hub/webgl/" target="_blank">Хаб WebGL на habr</a></li>
+            <li><a href="https://developer.mozilla.org/ru/docs/Web/API/WebGL_API/Tutorial/Getting_started_with_WebGL" target="_blank">Начало работы с WebGL</a></li>
+        </ul>
+    </section>
+
+    <section class="slide clear">
+        <h2 class="shout" style="color: white;">Виджеты</h2>
+        <img src="./pictures/widgets.jpg" class="cover width" alt="Рабочий стол планшета на Androd с ярлыками приложений.">
+    </section>
+
+    <section class="slide">
+        <h2>Сторонние виджеты</h2>
+        <ul>
+            <li class="next">Чаты, онлайн-консультанты</li>
+            <li class="next">Карты</li>
+            <li class="next">Комментарии</li>
+            <li class="next">Отзывы, рейтинги</li>
+            <li class="next">Социальные сети</li>
+            <li class="next">Cookie</li>
+            <li class="next">И тд...</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Точно ли нужен виджет?</h2>
+        <ul>
+            <li class="next">Им не пользуются или пользуются мало?</li>
+            <li class="next">Мешает пользователям?</li>
+            <li class="next">Может уже подключен аналогичный виджет?</li>
+            <li class="next">Может, можно сделать минималистичную версию самостоятельно?</li>
+        </ul>
+        <p class="next">Если да - удаляем</p>
+    </section>
+
+    <section class="slide">
+        <h2>Всё-таки виджет нужен</h2>
+        <ul>
+            <li class="next">Используем технику фасадных объектов и маскируем</li>
+            <li class="next">Загружаем лениво</li>
+            <li class="next">Загружаем только на тех страницах, где используется</li>
+            <li class="next">Подбираем наиболее производительный виджет</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Ссылки</h2>
+        <ul>
+            <li><a href="https://web.dev/third-party-facades/" target="_blank">Отложенная загрузка сторонних ресурсов с помощью фасадов</a></li>
+            <li><a href="https://web.dev/third-party-javascript/" target="_blank">Third-party JavaScript performance</a></li>
+            <li><a href="https://web.dev/embed-best-practices/" target="_blank">Best practices for using third-party embeds</a></li>
+        </ul>
+    </section>
+
+    <section class="slide clear">
+        <h2 class="shout" style="text-align: left; color: white; padding-left: var(--slide-side);">Аналитика</h2>
+        <img src="./pictures/metrics.jpg" class="cover width" style="filter: brightness(0.4);" alt="Различные метрики, графики и цифры на экране.">
+    </section>
+
+    <section class="slide">
+        <h2>Аналитика</h2>
+        <ul>
+            <li class="next">Нужна для оценки бизнес-показателей</li>
+            <li class="next">Даёт информацию о пользователях и их поведении</li>
+            <li class="next">Даёт ценную информацию для оптимизации</li>
+            <li class="next">Тормозит работу сайта</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Оптимизация аналитики</h2>
+        <ul>
+            <li class="next">Убираем лишние скрипты аналитики</li>
+            <li class="next">Оптимизируем работу с Google Tag Manager</li>
+            <li class="next">Используем <a href="https://support.google.com/tagmanager/topic/7679108?hl=ru&ref_topic=7679384" target="_blank">триггеры</a> и события для загрузки скриптов</li>
+            <li class="next">Отключаем компоненты Яндекс.Метрики</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Ссылки</h2>
+        <ul>
+            <li><a href="https://web.dev/tag-best-practices/" target="_blank">Best practices for tags and tag managers</a></li>
+            <li><a href="https://vc.ru/dev/158627-uskoryaem-rabotu-sayta-na-etape-razrabotki-i-obgonyaem-konkurentov-v-poiske-chast-2" target="_blank">Что делать с счетчиками Яндекс.Метрика, Google Analytics</a></li>
+        </ul>
+    </section>
+
+    <section class="slide clear">
+        <h2 class="shout" style="color: white;">Сервер и сеть</h2>
+        <img src="./pictures/server.jpg" class="cover width" style="filter: brightness(0.4);" alt="Различные метрики, графики и цифры на экране.">
+    </section>
+
+    <section class="slide">
+        <h2>Сервер и сеть</h2>
+        <ul>
+            <li class="next">Сервер хранит ресурсы</li>
+            <li class="next">Через сеть сервер отдаёт ресурсы клиенту</li>
+            <li class="next">Часто не под нашим контролем</li>
+            <li class="next">Если слабый сервер, долго ждать контент</li>
+            <li class="next">Если медленная сеть, долго ждать контент</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>На сервере</h2>
+        <ul>
+            <li class="next">Оптимизируем базы данных, запросы, индексы</li>
+            <li class="next">Кешируем</li>
+            <li class="next">Генерируем статику (<abbr title="Static Site Generation">SSG</abbr>, <a href="https://jamstack.org/" target="_blank" hreflang="en">JamStack</a>)</li>
+            <li class="next">Упрощаем вычисления</li>
+            <li class="next">Покупаем более мощный сервер</li>
+            <li class="next">Кластеризируем, балансируем, распределяем нагрузку</li>
+            <li class="next">Используем CDN</li>
+        </ul>
+    </section>
+
+    <section class="slide">
+        <h2>Ещё про оптимизацию</h2>
+        <ul>
+            <li><a href="https://web.dev/fast/" target="_blank">Ускорение загрузки</a></li>
+            <li><a href="https://developers.google.com/speed" target="_blank" hreflang="en">Make the Web Faster
+            </a></li>
+            <li><a href="https://3perf.com/content/" target="_blank" hreflang="en">Here’s all you’ll need for faster sites</a></li>
+        </ul>
+    </section>
+
+    <section class="slide clear">
+        <h2 class="shout" style="color: white;">Всё!</h2>
+        <img src="./pictures/end.jpg" class="cover width" alt="Люди в концерном зале смотрят на сцену с синим фоном и занавесом.">
+    </section>
+
+    <section class="slide">
+        <h2>Презентация</h2>
+        <a href="https://github.com/alexnozer/frontend-optimization-spurit" class="place center" target="_blank">Исходники на github</a>
+    </section>
+
+    <section class="slide clear">
+        <h2 class="shout" style="text-align: left; color: white; padding-left: var(--slide-side);">Вопросы</h2>
+        <img src="./pictures/questions.jpg" class="cover height" alt="Много знаков вопроса серого цвета и один красного цвета лежат на серой поверхности.">
+    </section>
+
+    <div class="progress"></div>
+
+    <footer class="badge">
+        <a href="https://github.com/shower/shower">Сделано в Shower</a>
+    </footer>
+
+    <script src="scripts/shower.js"></script>
+</body>
+</html>
